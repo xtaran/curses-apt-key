@@ -1,7 +1,7 @@
 curses-apt-key is a (still very hackish) text-mode interface to
 Debian's APT key management tool apt-key.
 
-It is scratch written from in Perl and basically a text-mode clone of
+It is written from scratch in Perl and basically a text-mode clone of
 Joey Schulze's Perl/GTK based gui-apt-key. It also reuses some of
 gui-apt-key's internal Perl modules.
 
