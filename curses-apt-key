@@ -1,0 +1,186 @@
+#!/usr/bin/perl
+
+use common::sense;
+
+use Curses;
+use Curses::UI;
+use Data::Dumper;
+
+use lib '/usr/share/gui-apt-key';
+use GAK::Backend;
+
+my %keys = ();
+#print Dumper \@keys; exit 0;
+
+my $cui = new Curses::UI( -color_support => 1,
+			  -mouse_support => 1,
+			  -clear_on_exit => 1,
+			  -debug	 => 0 );
+
+my @menu = (
+    {
+	-label => 'File',
+	-submenu => [
+	     { -label => 'Add keys from file        a',
+	       -value => \&key_add },
+	     { -label => 'Update keys from Keyring  u',
+	       -value => \&keys_update },
+	     { -label => 'Exit                      q',
+	       -value => \&exit_program }
+	    ]
+    },{
+	-label => 'Key',
+	-submenu => [
+	     { -label => 'Delete selected key       d',
+	       -value => \&key_delete },
+	    ]
+    });
+
+my $menu = $cui->add( 'menu','Menubar',
+		      -menu => \@menu,
+		      -bg  => "blue",
+		      -fg  => "white" );
+
+my $win = $cui->add( 'win', 'Window',
+		      -border => 0,
+		      -y    => 1 );
+
+my $key_list = $win->add("list", "Listbox",
+
+#    -width      => 20,
+#    -border     => 1,
+    -title      => 'Keys',
+    -vscrollbar => 1,
+    -onselchange   => \&listbox_change,
+
+);
+
+$key_list->set_binding( \&key_add ,     "a");
+$key_list->set_binding( \&key_delete ,  "d");
+$key_list->set_binding( \&keys_update , "u");
+$key_list->set_binding( \&listbox_key_enter , KEY_ENTER);
+
+$key_list->focus();
+
+$cui->set_binding(sub {$menu->focus()}, "\cX");
+$cui->set_binding( \&exit_program , "\cQ");
+$cui->set_binding( \&exit_program , "\cC");
+$cui->set_binding( \&exit_program , "q");
+
+$cui->status('Reading key list');
+update_listbox();
+$cui->nostatus;
+
+$cui->mainloop();
+
+#################
+### Functions ###
+#################
+
+sub display_key {
+    my $keyid = shift;
+    my $desc = get_keyname($keyid);
+    my $disp = display_keyid($keyid);
+    return "$disp:  $desc";
+}
+
+sub get_keyname {
+    my $keyid = shift;
+    my $name = $keys{$keyid}[3];
+    $name =~ s/\\x3a/:/g;
+    return $name;
+}
+
+sub get_expiry {
+    my $keyid = shift;
+    return $keys{$keyid}[2];
+}
+
+sub display_keyid {
+    my $keyid = shift;
+    $keyid =~ s/^(.{4})(.{4})(.{4})(.{4})$/$1 $2 $3 $4/;
+    return $keyid;
+}
+
+sub update_listbox {
+    %keys = map { $_->[0] => $_ } keylist;
+    $key_list->values([ sort { lc(get_keyname($a)) cmp lc(get_keyname($b)) } keys %keys ]);
+    $key_list->labels({ map { $_ => display_key($_) } %keys });
+}
+
+sub listbox_change()
+{
+    my $listbox = shift;
+    my $selkey = $listbox->get_active_value;
+    my $selid = $listbox->get_active_id;
+    $listbox->title($selkey);
+    $listbox->set_selection($selid);
+}
+
+sub key_delete()
+{
+    my $sel = $key_list->get_active_value;
+    my $id = $key_list->get_active_id;
+
+    my $delete = $cui->dialog(-message => "Really delete key $sel (".get_keyname($sel).")?",
+			      -buttons => [
+				   {
+				       -label => ' Yes ',
+				       -value => 1,
+				       -shortcut => 'y'
+				   },{
+				       -label => ' No ',
+				       -value => 0,
+				       -shortcut => 'n'
+				   }
+			      ],
+			      -buttonalignment => 'middle',
+			      -selected => 1);
+
+    if ($delete) {
+	do_delete($sel);
+	$cui->status( "Deleted $sel" );
+	sleep(1);
+	update_listbox;
+	$key_list->set_selection($id);
+	$key_list->{-ypos} = $id;
+    } else {
+	#$cui->status( "Nothing deleted" );
+    }
+}
+
+sub keys_update()
+{
+    my $rc = do_update();
+    if ($rc) {
+	$cui->status('Update successful');
+	sleep(1);
+	update_listbox;
+    } else {
+	$cui->status('Update failed');
+    }
+}
+
+sub key_add()
+{
+    my $file = $cui->filebrowser();
+    if ($file) {
+	my $rc = do_add($file);
+	$cui->status('Key '.($rc ? 'successfully added' : 'addition failed'));
+    }
+}
+
+sub listbox_key_enter()
+{
+    my $listbox = shift;
+    my $sel = $listbox->get_active_value;
+    my $exp = get_expiry($sel);
+
+    my $status = $cui->status( "Key ID:  ".display_keyid($sel)."\n".
+			       "User ID: ".get_keyname($sel).
+			       ($exp? "\nExpires: $exp" : ""));
+    #$status->set_binding( sub { $cui->nostatus; } , KEY_ENTER);
+    #$key_list->set_binding( \&listbox_key_enter , KEY_ENTER);
+}
+
+sub exit_program { exit(0); }
