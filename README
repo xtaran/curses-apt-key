@@ -1,9 +1,12 @@
 curses-apt-key is a (still very hackish) text-mode interface to
 Debian's APT key management tool apt-key.
 
-It is from scratch written in Perl and basically a text-mode clone of
+It is scratch written from in Perl and basically a text-mode clone of
 Joey Schulze's Perl/GTK based gui-apt-key. It also reuses some of
 gui-apt-key's internal Perl modules.
+
+See http://www.infodrom.org/projects/gui-apt-key/ for details about
+gui-apt-key.
 
 curses-apt-key depends on:
 
@@ -11,8 +14,8 @@ curses-apt-key depends on:
 * gui-apt-key (needs its GAK::Backend)
 * libcommon-sense-perl
 
-The newest code is available at
-https://github.com/xtaran/curses-apt-key for now.
+For now, the most recent code should always be available at
+https://github.com/xtaran/curses-apt-key.
 
 curses-apt-key is Copyright (C) 2012 Axel Beckert <abe@deuxchevaux.org>
 
