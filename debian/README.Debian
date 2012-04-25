@@ -1,0 +1,8 @@
+curses-apt-key for Debian
+-------------------------
+
+curses-apt-key currently depends on gui-apt-key as gui-apt-key's
+backend libraries are not yet split off into a separate package. This
+is planned to change.
+
+ -- Axel Beckert <abe@debian.org>, Wed, 25 Apr 2012 23:12:30 +0200

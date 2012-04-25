@@ -1,0 +1,5 @@
+curses-apt-key (0~2012.04.25) UNRELEASED; urgency=low
+
+  * Initial Release.
+
+ -- Axel Beckert <abe@debian.org>  Wed, 25 Apr 2012 22:51:07 +0200

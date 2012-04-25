@@ -1,0 +1,2 @@
+?package(curses-apt-key):needs="text" section="Applications/System/Package Management"\
+  title="Curses apt-key" command="/usr/sbin/curses-apt-key"
