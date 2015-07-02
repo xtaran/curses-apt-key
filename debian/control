@@ -12,7 +12,6 @@ Package: curses-apt-key
 Architecture: all
 Depends: libcurses-ui-perl,
 	 gui-apt-key | libgak-backend-perl,
-	 libcommon-sense-perl,
 	 ${misc:Depends}, ${perl:Depends}
 Description: Text-mode key manager for apt-key
  The text-mode frontend to the apt-key utility (cak) provides an easy
