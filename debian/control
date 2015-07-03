@@ -3,7 +3,7 @@ Section: admin
 Priority: extra
 Maintainer: Axel Beckert <abe@debian.org>
 Build-Depends: debhelper (>= 8.0.0)
-Standards-Version: 3.9.3
+Standards-Version: 3.9.6
 #Homepage: 
 Vcs-Git: git://github.com/xtaran/curses-apt-key.git
 Vcs-Browser: https://github.com/xtaran/curses-apt-key
