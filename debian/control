@@ -4,15 +4,15 @@ Priority: extra
 Maintainer: Axel Beckert <abe@debian.org>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.6
-#Homepage: 
 Vcs-Git: git://github.com/xtaran/curses-apt-key.git
 Vcs-Browser: https://github.com/xtaran/curses-apt-key
 
 Package: curses-apt-key
 Architecture: all
-Depends: libcurses-ui-perl,
-	 gui-apt-key | libgak-backend-perl,
-	 ${misc:Depends}, ${perl:Depends}
+Depends: gui-apt-key | libgak-backend-perl,
+         libcurses-ui-perl,
+         ${misc:Depends},
+         ${perl:Depends}
 Description: Text-mode key manager for apt-key
  The text-mode frontend to the apt-key utility (cak) provides an easy
  way to maintain digital keys for APT also on servers.  Those keys are
