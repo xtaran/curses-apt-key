@@ -30,37 +30,37 @@ my %keys = ();
 #print Dumper \@keys; exit 0;
 
 my $cui = new Curses::UI( -color_support => 1,
-			  -mouse_support => 1,
-			  -clear_on_exit => 1,
-			  -debug	 => 0 );
+                          -mouse_support => 1,
+                          -clear_on_exit => 1,
+                          -debug         => 0 );
 
 my @menu = (
     {
-	-label => 'File',
-	-submenu => [
-	     { -label => 'Add keys from file        a',
-	       -value => \&key_add },
-	     { -label => 'Update keys from Keyring  u',
-	       -value => \&keys_update },
-	     { -label => 'Exit                      q',
-	       -value => \&exit_program }
-	    ]
+        -label => 'File',
+        -submenu => [
+             { -label => 'Add keys from file        a',
+               -value => \&key_add },
+             { -label => 'Update keys from Keyring  u',
+               -value => \&keys_update },
+             { -label => 'Exit                      q',
+               -value => \&exit_program }
+            ]
     },{
-	-label => 'Key',
-	-submenu => [
-	     { -label => 'Delete selected key       d',
-	       -value => \&key_delete },
-	    ]
+        -label => 'Key',
+        -submenu => [
+             { -label => 'Delete selected key       d',
+               -value => \&key_delete },
+            ]
     });
 
 my $menu = $cui->add( 'menu','Menubar',
-		      -menu => \@menu,
-		      -bg  => "blue",
-		      -fg  => "white" );
+                      -menu => \@menu,
+                      -bg  => "blue",
+                      -fg  => "white" );
 
 my $win = $cui->add( 'win', 'Window',
-		      -border => 0,
-		      -y    => 1 );
+                      -border => 0,
+                      -y    => 1 );
 
 my $key_list = $win->add("list", "Listbox",
 
@@ -140,29 +140,29 @@ sub key_delete()
     my $id = $key_list->get_active_id;
 
     my $delete = $cui->dialog(-message => "Really delete key $sel (".get_keyname($sel).")?",
-			      -buttons => [
-				   {
-				       -label => ' Yes ',
-				       -value => 1,
-				       -shortcut => 'y'
-				   },{
-				       -label => ' No ',
-				       -value => 0,
-				       -shortcut => 'n'
-				   }
-			      ],
-			      -buttonalignment => 'middle',
-			      -selected => 1);
+                              -buttons => [
+                                   {
+                                       -label => ' Yes ',
+                                       -value => 1,
+                                       -shortcut => 'y'
+                                   },{
+                                       -label => ' No ',
+                                       -value => 0,
+                                       -shortcut => 'n'
+                                   }
+                              ],
+                              -buttonalignment => 'middle',
+                              -selected => 1);
 
     if ($delete) {
-	do_delete($sel);
-	$cui->status( "Deleted $sel" );
-	sleep(1);
-	update_listbox;
-	$key_list->set_selection($id);
-	$key_list->{-ypos} = $id;
+        do_delete($sel);
+        $cui->status( "Deleted $sel" );
+        sleep(1);
+        update_listbox;
+        $key_list->set_selection($id);
+        $key_list->{-ypos} = $id;
     } else {
-	#$cui->status( "Nothing deleted" );
+        #$cui->status( "Nothing deleted" );
     }
 }
 
@@ -170,11 +170,11 @@ sub keys_update()
 {
     my $rc = do_update();
     if ($rc) {
-	$cui->status('Update successful');
-	sleep(1);
-	update_listbox;
+        $cui->status('Update successful');
+        sleep(1);
+        update_listbox;
     } else {
-	$cui->status('Update failed');
+        $cui->status('Update failed');
     }
 }
 
@@ -182,8 +182,8 @@ sub key_add()
 {
     my $file = $cui->filebrowser();
     if ($file) {
-	my $rc = do_add($file);
-	$cui->status('Key '.($rc ? 'successfully added' : 'addition failed'));
+        my $rc = do_add($file);
+        $cui->status('Key '.($rc ? 'successfully added' : 'addition failed'));
     }
 }
 
@@ -194,8 +194,8 @@ sub listbox_key_enter()
     my $exp = get_expiry($sel);
 
     my $status = $cui->status( "Key ID:  ".display_keyid($sel)."\n".
-			       "User ID: ".get_keyname($sel).
-			       ($exp? "\nExpires: $exp" : ""));
+                               "User ID: ".get_keyname($sel).
+                               ($exp? "\nExpires: $exp" : ""));
     #$status->set_binding( sub { $cui->nostatus; } , KEY_ENTER);
     #$key_list->set_binding( \&listbox_key_enter , KEY_ENTER);
 }
