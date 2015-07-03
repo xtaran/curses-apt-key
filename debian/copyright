@@ -3,7 +3,7 @@ Upstream-Name: curses-apt-key
 Source: https://github.com/xtaran/curses-apt-key
 
 Files: *
-Copyright: 2012 Axel Beckert <abe@debian.org>
+Copyright: 2012-2015 Axel Beckert <abe@debian.org>
 License: GPL-2.0+
 
 License: GPL-2.0+
