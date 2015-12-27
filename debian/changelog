@@ -1,5 +1,5 @@
-curses-apt-key (0~2015.07.03) UNRELEASED; urgency=low
+curses-apt-key (0~2015.12.27) UNRELEASED; urgency=low
 
-  * Initial Release.
+  * Initial Release. (Closes: #675187)
 
- -- Axel Beckert <abe@debian.org>  Fri, 03 Jul 2015 02:09:48 +0200
+ -- Axel Beckert <abe@debian.org>  Sun, 27 Dec 2015 17:19:00 +0100
