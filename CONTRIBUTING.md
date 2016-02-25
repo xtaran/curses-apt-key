@@ -14,7 +14,7 @@ Bug reports
 -----------
 
 As long as the package is not yet in Debian (see
-[Debian bug report #675187](https://bugs.debian.org/675187), please
+[Debian bug report #675187](https://bugs.debian.org/675187)), please
 file bug reports
 [via GitHub Issues](https://github.com/xtaran/curses-apt-key/issues).
 
