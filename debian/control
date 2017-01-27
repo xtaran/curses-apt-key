@@ -14,8 +14,8 @@ Depends: gui-apt-key | libgak-backend-perl,
          libcurses-ui-perl,
          ${misc:Depends},
          ${perl:Depends}
-Description: Text-mode key manager for apt-key
- The text-mode frontend to the apt-key utility (cak) provides an easy
+Description: Text-mode APT key manager (curses frontend for apt-key)
+ This text-mode frontend for the apt-key utility (cak) provides an easy
  way to maintain digital keys for APT also on servers.  Those keys are
  required to authenticate Debian archives and prevent malicious
  packages to creep in.
