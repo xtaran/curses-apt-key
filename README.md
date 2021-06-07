@@ -1,3 +1,5 @@
+*Note:* Since `apt-key` itself is deprecated and `gui-apt-key` has been removed from Debian for multiple reasons, I've stopped working on `curses-apt-key` as well.
+
 curses-apt-key
 ==============
 
